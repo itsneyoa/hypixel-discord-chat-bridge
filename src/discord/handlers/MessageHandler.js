@@ -1,3 +1,5 @@
+const blacklist = require('../../../blacklist.json')
+
 class MessageHandler {
   constructor(discord, command) {
     this.discord = discord
@@ -15,6 +17,10 @@ class MessageHandler {
 
     const content = this.stripDiscordContent(message.content).trim()
     if (content.length == 0) {
+      return
+    }
+
+    if (this.containsBlacklistedWord(content)) {
       return
     }
 
@@ -40,6 +46,10 @@ class MessageHandler {
 
   shouldBroadcastMessage(message) {
     return !message.author.bot && message.channel.id == this.discord.app.config.discord.channel && message.content && message.content.length > 0
+  }
+
+  containsBlacklistedWord(message) {
+    return (blacklist.words.some(substring => message.includes(substring)))
   }
 }
 
