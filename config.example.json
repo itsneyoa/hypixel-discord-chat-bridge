@@ -15,5 +15,13 @@
     "commandRole": "roleId",
     "ownerId": "ownerId",
     "prefix": "!"
+  },
+  "blacklist": {
+    "words": [
+      "alpha",
+      "bravo",
+      "charlie",
+      "delta"
+    ]
   }
 }
