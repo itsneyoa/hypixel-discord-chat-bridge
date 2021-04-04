@@ -19,6 +19,7 @@ class Configuration {
       ownerId: '',
       prefix: '!',
     },
+    blacklist: []
   }
 
   environmentOverrides = {
@@ -33,6 +34,7 @@ class Configuration {
     DISCORD_COMMAND_ROLE: val => (this.properties.discord.commandRole = val),
     DISCORD_OWNER_ID: val => (this.properties.discord.ownerId = val),
     DISCORD_PREFIX: val => (this.properties.discord.prefix = val),
+    BLACKLISTED_WORDS: val => (this.properties.blacklist = val),
   }
 
   constructor() {
@@ -57,6 +59,10 @@ class Configuration {
 
   get discord() {
     return this.properties.discord
+  }
+
+  get blacklist() {
+    return this.properties.blacklist
   }
 }
 
