@@ -16,3 +16,4 @@ services:
       DISCORD_CHANNEL: discordChannelId
       DISCORD_COMMAND_ROLE: discordCommandRoleId
       DISCORD_OWNER_ID: discordOwnerId
+      BLACKLISTED_WORDS: ['alpha', 'bravo', 'charlie', 'delta']
