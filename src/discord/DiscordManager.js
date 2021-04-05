@@ -25,7 +25,7 @@ class DiscordManager extends CommunicationBridge {
       cachePresences: false,
     })
 
-    this.client.on('ready', () =>{
+    this.client.on('ready', () => {
       this.stateHandler.onReady()
       this.client.user.setActivity('Guild Chat', { type: 'WATCHING' })
     })
@@ -36,7 +36,7 @@ class DiscordManager extends CommunicationBridge {
     })
   }
 
-  onBroadcast({ username, message , guildRank}) {
+  onBroadcast({ username, message, guildRank }) {
     this.client.channels.fetch(this.app.config.discord.channel).then(channel => {
       console.log(chalk.blue(`Discord Broadcast > ${username} [${guildRank}]: ${message}`))
 
