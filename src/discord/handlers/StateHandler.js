@@ -1,12 +1,13 @@
-const chalk = require('chalk')
+const log = require('../../Log')
 
 class StateHandler {
   constructor(discord) {
     this.discord = discord
+    this.log = new log()
   }
 
   onReady() {
-    console.log(chalk.green('Discord client ready, logged in as ' + this.discord.client.user.tag))
+    this.log.discord('Discord client ready, logged in as ' + this.discord.client.user.tag)
   }
 }
 

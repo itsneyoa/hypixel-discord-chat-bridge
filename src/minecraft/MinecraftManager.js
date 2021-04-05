@@ -4,7 +4,7 @@ const StateHandler = require('./handlers/StateHandler')
 const ErrorHandler = require('./handlers/ErrorHandler')
 const ChatHandler = require('./handlers/ChatHandler')
 const mineflayer = require('mineflayer')
-const chalk = require('chalk')
+const log = require('../Log')
 
 class MinecraftManager extends CommunicationBridge {
   constructor(app) {
@@ -15,6 +15,7 @@ class MinecraftManager extends CommunicationBridge {
     this.stateHandler = new StateHandler(this)
     this.errorHandler = new ErrorHandler(this)
     this.chatHandler = new ChatHandler(this, new CommandHandler(this))
+    this.log = new log()
   }
 
   connect() {
@@ -37,7 +38,7 @@ class MinecraftManager extends CommunicationBridge {
   }
 
   onBroadcast({ username, message }) {
-    console.log(chalk.blue(`Minecraft Broadcast > ${username}: ${message}`))
+    this.log.minecraft(`Minecraft Broadcast > ${username}: ${message}`)
 
     if (this.bot.player !== undefined) {
       this.bot.chat(`/gc ${username}: ${message}`)

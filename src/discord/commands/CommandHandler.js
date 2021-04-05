@@ -6,8 +6,7 @@ const PromoteCommand = require(`./PromoteCommand`)
 const DemoteCommand = require(`./DemoteCommand`)
 const OverrideCommand = require(`./OverrideCommand`)
 const MuteCommand = require(`./MuteCommand`)
-
-const chalk = require('chalk')
+const log = require('../../Log')
 
 class CommandHandler {
   constructor(discord) {
@@ -49,6 +48,7 @@ class CommandHandler {
         handler: new MuteCommand(discord),
       },
     ]
+    this.log = new log()
   }
 
   handle(message) {
@@ -80,7 +80,7 @@ class CommandHandler {
       return message.reply("You're not allowed to run this command!")
     }
 
-    console.log(chalk.grey(`Discord Command Handler > [${command.handler.constructor.name}] ${message.content}`))
+    this.log.handler(`Discord Command Handler > [${command.handler.constructor.name}] ${message.content}`)
 
     command.handler.onCommand(message)
   }
