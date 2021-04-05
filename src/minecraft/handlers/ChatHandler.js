@@ -32,6 +32,18 @@ class StateHandler extends EventHandler {
       return this.bot.chat('/ac §')
     }
 
+    if (this.isLoginMessage(message)) {
+      let user = message.split('>')[1].trim().split('joined.')[0].trim()
+
+      return this.minecraft.broadcastLogin(user)
+    }
+
+    if (this.isLogoutMessage(message)) {
+      let user = message.split('>')[1].trim().split('left.')[0].trim()
+
+      return this.minecraft.broadcastLogout(user)
+    }
+
     if (this.isPartyInviteMessage(message)) {
       this.inviter = message.split(" ")[1]
       if (this.inviter === "has") this.inviter = message.split(" ")[0].replace("-----------------------------\n", "") // Nons
@@ -137,6 +149,14 @@ class StateHandler extends EventHandler {
 
   isMessageYoureInParty(message) {
     return message.endsWith(" to join another one.") && !message.includes(':')
+  }
+
+  isLoginMessage(message) {
+    return message.startsWith('Guild >') && message.endsWith('joined.') && !message.includes(':')
+  }
+
+  isLogoutMessage(message) {
+    return message.startsWith('Guild >') && message.endsWith('left.') && !message.includes(':')
   }
 
   addCharToString(string, chars, times) {
