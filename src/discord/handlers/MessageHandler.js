@@ -21,6 +21,7 @@ class MessageHandler {
     }
 
     if (this.containsBlacklistedWord(content)) {
+      console.log(chalk.dim(`Blacklist caught > ${content}`))
       return
     }
 
