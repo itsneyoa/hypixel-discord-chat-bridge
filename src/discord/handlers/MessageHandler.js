@@ -1,4 +1,4 @@
-const blacklist = require('../../../blacklist.json')
+const chalk = require('chalk')
 
 class MessageHandler {
   constructor(discord, command) {
@@ -49,7 +49,7 @@ class MessageHandler {
   }
 
   containsBlacklistedWord(message) {
-    return (blacklist.words.some(substring => message.includes(substring)))
+    return (this.discord.app.config.blacklist.words.some(substring => message.includes(substring)))
   }
 }
 
