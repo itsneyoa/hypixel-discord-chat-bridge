@@ -73,12 +73,6 @@ class StateHandler extends EventHandler {
         this.inviter = 0
 
         setTimeout(() => {
-          this.bot.chat(
-            "/pc fragruns go brr"
-          )
-        }, 1000)
-
-        setTimeout(() => {
           console.log("Leaving party from: " + this.partyLeader)
           this.partyLeader = 0
 
