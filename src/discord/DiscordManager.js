@@ -25,11 +25,45 @@ class DiscordManager extends CommunicationBridge {
       cachePresences: false,
     })
 
-    this.client.on('ready', () => this.stateHandler.onReady())
+    this.client.on('ready', () => {
+      this.stateHandler.onReady()
+
+      this.client.channels.fetch(this.app.config.discord.channel).then(channel => {
+        channel.send({
+          embed: {
+            description: 'Chat Bridge is Online',
+            color: '7CFC00',
+            timestamp: new Date(),
+            author: {
+              name: this.client.user.username,
+              icon_url: this.client.user.avatarURL()
+            }
+          }
+        })
+      })
+    })
+
     this.client.on('message', message => this.messageHandler.onMessage(message))
 
     this.client.login(this.app.config.discord.token).catch(error => {
       console.error('Discord Bot Error: ', error)
+    })
+
+    process.on('SIGINT', () => {
+      this.client.channels.fetch(this.app.config.discord.channel).then(channel => {
+        channel.send({
+          embed: {
+            description: 'Chat Bridge is Offline',
+            color: 'DC143C',
+            timestamp: new Date(),
+            author: {
+              name: this.client.user.username,
+              icon_url: this.client.user.avatarURL()
+            }
+          }
+        }).then(() => { process.exit() }
+        )
+      })
     })
   }
 
