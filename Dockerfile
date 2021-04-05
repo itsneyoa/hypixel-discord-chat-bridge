@@ -16,6 +16,8 @@ ENV DISCORD_CHANNEL=discordChannelId
 ENV DISCORD_COMMAND_ROLE=discordCommandRoleId
 ENV DISCORD_OWNER_ID=discordOwnerId
 ENV DISCORD_PREFIX=!
+# Blacklist Settings
+ENV BLACKLISTED_WORDS=alpha,bravo,charlie,delta
 
 # Docker set up instructions
 
