@@ -20,7 +20,7 @@ class Configuration {
       prefix: '!',
     },
     blacklist: {
-      words: [],
+      words: ['alpha', 'bravo', 'charlie', 'delta'],
     }
   }
 
@@ -36,7 +36,7 @@ class Configuration {
     DISCORD_COMMAND_ROLE: val => (this.properties.discord.commandRole = val),
     DISCORD_OWNER_ID: val => (this.properties.discord.ownerId = val),
     DISCORD_PREFIX: val => (this.properties.discord.prefix = val),
-    BLACKLISTED_WORDS: val => (this.properties.blacklist.words = val),
+    BLACKLISTED_WORDS: val => (this.properties.blacklist.words = val.split(',')),
   }
 
   constructor() {
