@@ -94,6 +94,10 @@ The owner ID is similar to the command role, however this is the ID of the user 
 
 The prefix is the command prefixed used for all the commands in the bot on the Discord side, by default this is set it `!`.
 
+#### Blacklist
+
+The words blacklist contains an array of phrases which will match any substring that contains a blacklisted phrase (eg blacklisting `pro` would block `pro`, `improve`, `professional` and any other word which contains `pro`).
+
 ### Commands
 
 <> = Required arguments, [] Optional arguments
@@ -107,8 +111,8 @@ The prefix is the command prefixed used for all the commands in the bot on the D
 
 ### Roadmap
 
-- [ ] Chat message filter
-  - The filter should block any messages sent from Discord to Hypixel that contains banable words, and words that could potentially cause a mute.
+- [ ] Improve chat message filter
+  - Send feedback if a message isn't sent for containing a blacklisted phrase
 - [ ] Log guild joins & leaves
   - Send a message in Discord when people join or leave the guild, and when people login or logout of Hypixel.
 - [ ] Send Discord message when the bot comes online and offline
