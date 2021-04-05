@@ -27,6 +27,7 @@ class DiscordManager extends CommunicationBridge {
 
     this.client.on('ready', () => {
       this.stateHandler.onReady()
+      this.client.user.setActivity('Guild Chat', { type: 'WATCHING' })
 
       this.client.channels.fetch(this.app.config.discord.channel).then(channel => {
         channel.send({
