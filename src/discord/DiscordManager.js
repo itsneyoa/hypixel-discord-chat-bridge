@@ -25,7 +25,10 @@ class DiscordManager extends CommunicationBridge {
       cachePresences: false,
     })
 
-    this.client.on('ready', () => this.stateHandler.onReady())
+    this.client.on('ready', () =>{
+      this.stateHandler.onReady()
+      this.client.user.setActivity('Guild Chat', { type: 'WATCHING' })
+    })
     this.client.on('message', message => this.messageHandler.onMessage(message))
 
     this.client.login(this.app.config.discord.token).catch(error => {
