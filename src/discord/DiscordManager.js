@@ -3,7 +3,7 @@ const StateHandler = require('./handlers/StateHandler')
 const MessageHandler = require('./handlers/MessageHandler')
 const CommandHandler = require('./commands/CommandHandler')
 const Discord = require('discord.js-light')
-const chalk = require('chalk')
+const log = require('../Log')
 
 class DiscordManager extends CommunicationBridge {
   constructor(app) {
@@ -13,6 +13,7 @@ class DiscordManager extends CommunicationBridge {
 
     this.stateHandler = new StateHandler(this)
     this.messageHandler = new MessageHandler(this, new CommandHandler(this))
+    this.log = new log()
   }
 
   connect() {
@@ -47,7 +48,7 @@ class DiscordManager extends CommunicationBridge {
     this.client.on('message', message => this.messageHandler.onMessage(message))
 
     this.client.login(this.app.config.discord.token).catch(error => {
-      console.error('Discord Bot Error: ', error)
+      this.log.error('Discord Bot Error: ', error)
     })
 
     process.on('SIGINT', () => {
@@ -68,9 +69,9 @@ class DiscordManager extends CommunicationBridge {
     })
   }
 
-  onBroadcast({ username, message , guildRank}) {
+  onBroadcast({ username, message, guildRank }) {
     this.client.channels.fetch(this.app.config.discord.channel).then(channel => {
-      console.log(chalk.blue(`Discord Broadcast > ${username} [${guildRank}]: ${message}`))
+      this.log.discord(`Discord Broadcast > ${username} [${guildRank}]: ${message}`)
 
       channel.send({
         embed: {
