@@ -27,7 +27,7 @@ class MessageHandler {
   stripDiscordContent(message) {
     return message
       .replace(/[^a-z0-9=\\\\\\-+_)(*&^%$#@!\[\]';,\./><`~{}':" ?|\\^]/gi, '\n')
-      .replace(/\bb+a+l+d+|j+b+a+l+d+|b+\*+l+d+|b+a+d+l+|j+b+a+d+l+|n+i+g+g+e+r|n+i+g+g+a|b+q+l+d|b+o+l+d|theultimateb+a+l+d+|d+l+a+b|a+b+l+d|b+l+a+d|theb+a+l+d_mc|i+b+a+l+d\b/gi, '\n')
+      .replace(/\b(b+|a+)(a+|q+|o+|\*|b+|l+)(l+|d+|a+)(d+|b+|l+)|n+i+g+g+(e+r+|a+)|(i+|j+)(b+|a+)(a+|q+|o+|\*|b+l+)(l+|d+|a+)(d+|b+|l+)|t+h+e+u+l+t+i+m+a+t+e+(b+|a+)(a+|q+|o+|\*|b+|l+)(l+|d+|a+)(d+|b+|l+)|t+h+e+(b+|a+)(a+|q+|o+|\*|b+|l+)(l+|d+|a+)(d+|b+|l+)_+m+c+\b/gi, '\n')
       .split('\n')
       .map(part => {
         part = part.trim()
