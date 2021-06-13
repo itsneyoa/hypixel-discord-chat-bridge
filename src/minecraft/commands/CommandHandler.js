@@ -3,6 +3,7 @@ const GuildLobbyCommand = require('./GuildLobbyCommand')
 const WeightCommand = require('./WeightCommand')
 const DungeonsCommand = require('./DungeonsCommand')
 const SlayerCommand = require('./SlayerCommand')
+const AboutCommand = require('./AboutCommand')
 
 class CommandHandler {
   constructor(minecraft) {
@@ -28,6 +29,10 @@ class CommandHandler {
       {
         trigger: ['!slayer', '!slayers'],
         handler: new SlayerCommand(minecraft),
+      },
+      {
+        trigger: ['!about', '!help', '!info'],
+        handler: new AboutCommand(minecraft),
       },
     ]
   }
