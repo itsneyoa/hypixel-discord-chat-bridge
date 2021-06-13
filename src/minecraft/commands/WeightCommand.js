@@ -6,7 +6,7 @@ class WeightCommand extends MinecraftCommand {
     let user = args.shift()
 
     this.minecraft.app.api.fetch(user ? user : username).then(res => {
-      this.send(`${res.username}'s weight for their ${res.name} profile is ${res.weight.toFixed(2)} + ${res.weight_overflow.toFixed(2)} Overflow (${(res.weight + res.weight_overflow).toFixed(2)} Total)`)
+      this.send(`/gc ${res.username}'s weight for their ${res.name} profile is ${res.weight.toFixed(2)} + ${res.weight_overflow.toFixed(2)} Overflow (${(res.weight + res.weight_overflow).toFixed(2)} Total)`)
     }).catch(e => this.minecraft.app.log.warn(e))
   }
 }
