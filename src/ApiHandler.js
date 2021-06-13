@@ -19,13 +19,13 @@ class ApiHandler {
     })
   }
 
-  fetch(username) {
+  fetch(username, profile) {
     return new Promise((resolve, reject) => {
       this.mojang(username).then(mojang => {
         if (mojang.data) {
           let uuid = mojang.data.id
 
-          this.facade(uuid + '/save').then(facade => {
+          this.facade(uuid + '/' + profile ? profile : 'save').then(facade => {
             resolve(facade.data.data)
           }).catch(reject)
         } else {
