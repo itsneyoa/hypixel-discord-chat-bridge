@@ -7,6 +7,8 @@ const AboutCommand = require('./AboutCommand')
 const StatsCommand = require('./StatsCommand')
 const CoinflipCommand = require('./CoinflipCommand')
 const Scuj = require('./Scuj')
+const MoneyCommands = require('./MoneyCommand')
+const DiceCommands = require('./DiceCommand')
 
 class CommandHandler {
   constructor(minecraft) {
@@ -48,6 +50,14 @@ class CommandHandler {
       {
         trigger: ['!scuj'],
         handler: new Scuj(minecraft),
+      },
+      {
+        trigger: ['!coins', '!bank'],
+        handler: new MoneyCommands(minecraft),
+      },
+      {
+        trigger: ['!roll', '!dice'],
+        handler: new DiceCommands(minecraft),
       },
     ]
   }
