@@ -2,12 +2,14 @@ const MinecraftCommand = require('../../contracts/MinecraftCommand')
 
 class CoinflipCommand extends MinecraftCommand {
   onCommand(username, message) {
-    let coin = Math.floor(Math.random() * 2);
-if coin == 1 {
+    switch(Math.floor(Math.random() * 2)){
+  case 0:
     this.sendToGuild(`You got heads, ${username}!`)
-} else {
+    break;
+  case 1:
     this.sendToGuild(`You got tails, ${username}!`)
-  }
+    break;
+    }
 }
 
 module.exports = CoinflipCommand
