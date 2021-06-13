@@ -24,8 +24,8 @@ class ApiHandler {
       this.mojang(username).then(mojang => {
         if (mojang.data) {
           let uuid = mojang.data.id
-          console.log(uuid + '/' + profile ? profile : 'save')
-          this.facade(uuid + '/' + profile ? profile : 'save').then(facade => {
+
+          this.facade(uuid + '/' + (profile ? profile : 'save')).then(facade => {
             resolve(facade.data.data)
           }).catch(reject)
         } else {
