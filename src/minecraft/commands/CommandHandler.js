@@ -1,6 +1,7 @@
 const PingCommand = require('./PingCommand')
 const GuildLobbyCommand = require('./GuildLobbyCommand')
 const WeightCommand = require('./WeightCommand')
+const DungeonsCommand = require('./DungeonsCommand')
 
 class CommandHandler {
   constructor(minecraft) {
@@ -18,6 +19,10 @@ class CommandHandler {
       {
         trigger: ['!weight', '!we'],
         handler: new WeightCommand(minecraft),
+      },
+      {
+        trigger: ['!dungeons', '!cata', '!catacombs'],
+        handler: new DungeonsCommand(minecraft),
       },
     ]
   }
