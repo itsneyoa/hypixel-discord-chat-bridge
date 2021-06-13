@@ -7,7 +7,7 @@ class CoinsCommand extends MinecraftCommand {
     let profile = args.shift()
 
     this.minecraft.app.api.fetch(user ? user : username, profile).then(res => {
-      this.sendToGuild(`${res.username}'s has ${res.coins.total} coins on their ${res.name} profile.`)
+      this.sendToGuild(`${res.username}'s has ${Math.floor(res.coins.total).toLocaleString('en-US')} coins on their ${res.name} profile.`)
     }).catch(e => this.minecraft.app.log.warn(e))
   }
 }
