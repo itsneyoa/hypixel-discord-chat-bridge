@@ -11,6 +11,7 @@ class Configuration {
       password: null,
       lobbyHolder: null,
       accountType: 'mojang',
+      apiKey: null,
     },
     discord: {
       token: null,
@@ -35,6 +36,7 @@ class Configuration {
     DISCORD_OWNER_ID: val => (this.properties.discord.ownerId = val),
     DISCORD_PREFIX: val => (this.properties.discord.prefix = val),
     MESSAGE_MODE: val => (this.properties.discord.messageMode = val),
+    API_KEY: val => (this.properties.minecraft.apiKey = val),
   }
 
   constructor() {

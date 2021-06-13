@@ -7,7 +7,8 @@
     "username": "yourUsername",
     "password": "yourPassword",
     "lobbyHolder": "ignUsername",
-    "accountType": "mojang"
+    "accountType": "mojang",
+    "apiKey": "hypixelApiKey"
   },
   "discord": {
     "token": "discordBotToken",
