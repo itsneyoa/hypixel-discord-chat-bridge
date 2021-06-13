@@ -17,6 +17,12 @@ class MinecraftCommand {
     }
   }
 
+  sendToGuild(message) {
+    if (this.minecraft.bot.player !== undefined) {
+      this.minecraft.bot.chat(`/gc ${message}`)
+    }
+  }
+
   onCommand(player, message) {
     throw new Error('Command onCommand method is not implemented yet!')
   }
