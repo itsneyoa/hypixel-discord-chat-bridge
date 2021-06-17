@@ -39,8 +39,25 @@ class MinecraftManager extends CommunicationBridge {
     this.app.log.broadcast(`${username}: ${message}`, 'Minecraft')
 
     if (this.bot.player !== undefined) {
-      this.bot.chat(`/gc ${replyingTo ? `${username} replying to ${replyingTo}:` : `${username}:`} ${message}`)
+      this.bot.chat(`/gc ${this.obfuscate(`${replyingTo ? `${username} replying to ${replyingTo}:` : `${username}:`} ${message}`)}`)
     }
+  }
+
+  obfuscate(message) {
+    let maxTimes = 128
+    let values = ['\u0801', '\u0802', '\u0803', '\u0804', '\u0805', '\u0806', '\u0807', '\u0808', '\u0809', '\u080A', '\u080B', '\u080C', '\u080D', '\u080E', '\u080F', '\u0810', '\u0811', '\u0812', '\u0813', '\u0814', '\u0815']
+
+    let times = Math.floor(Math.random() * maxTimes)
+    let messageArray = message.split()
+
+    for (let i = 0; i < times; i++) {
+      let position = Math.floor(Math.random() * messageArray.length + 1)
+      let char = Math.floor(Math.random() * values.length + 1)
+
+      messageArray.splice(position, 0, values[char])
+    }
+
+    return messageArray.join('')
   }
 }
 
