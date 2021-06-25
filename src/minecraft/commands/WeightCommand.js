@@ -1,6 +1,14 @@
 const MinecraftCommand = require('../../contracts/MinecraftCommand')
 
 class WeightCommand extends MinecraftCommand {
+  constructor(minecraft) {
+    super(minecraft)
+
+    this.name = 'weight'
+    this.aliases = ['we']
+    this.description = "Gets a user's player weight"
+  }
+
   onCommand(username, message) {
     let args = this.getArgs(message)
     let user = args.shift()
