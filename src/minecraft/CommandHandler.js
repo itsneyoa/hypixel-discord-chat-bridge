@@ -16,7 +16,7 @@ class CommandHandler {
     }
   }
 
-  handle(player, message) {
+  handle(player, message, origin) {
     if (!message.startsWith(this.prefix)) {
       return false
     }
@@ -32,7 +32,7 @@ class CommandHandler {
     }
 
     this.minecraft.app.log.minecraft(`${player} - [${command.name}] ${message}`)
-    command.onCommand(player, message)
+    command.onCommand(player, message, origin)
 
     return true
   }

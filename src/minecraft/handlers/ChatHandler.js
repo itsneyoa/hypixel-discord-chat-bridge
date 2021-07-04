@@ -162,38 +162,38 @@ class StateHandler extends EventHandler {
       return this.minecraft.broadcastCleanEmbed({ message: `They already have that rank!`, color: 'DC143C' })
     }
 
-    if (this.isTooFast(message)) {
-      return this.minecraft.app.log.warn(message)
-    }
-
     if (this.isPlayerNotFound(message)) {
       let user = message.split(' ')[8].slice(1, -1)
 
       return this.minecraft.broadcastCleanEmbed({ message: `Player \`${user}\` not found.`, color: 'DC143C' })
     }
 
-    if (!this.isGuildMessage(message)) {
+    if (this.isTooFast(message)) {
+      return this.minecraft.app.log.warn(message)
+    }
+
+    if (!(this.isGuildMessage(message) || this.isOfficerMessage(message) || this.isPrivateMessage(message) || this.isPartyMessage(message))) {
       return
     }
 
     let parts = message.split(':')
     let group = parts.shift().trim()
     let hasRank = group.endsWith(']')
-
     let userParts = group.split(' ')
-    let username = userParts[userParts.length - (hasRank ? 2 : 1)]
-    let guildRank = userParts[userParts.length - 1].replace(/[\[\]]/g, '')
 
-    if (guildRank == username) {
-      guildRank = 'Member'
-    }
+    let username = userParts[userParts.length - (hasRank ? 2 : 1)]
 
     if (this.isMessageFromBot(username)) {
       return
     }
 
-    const playerMessage = parts.join(':').trim()
-    if (playerMessage.length == 0 || this.command.handle(username, playerMessage)) {
+    let playerMessage = parts.join(':').trim()
+
+    if (playerMessage.length == 0 || this.command.handle(username, playerMessage, userParts[0])) {
+      return
+    }
+
+    if (!(this.isGuildMessage(message)) || this.isOfficerMessage(message)) {
       return
     }
 
@@ -201,11 +201,26 @@ class StateHandler extends EventHandler {
       return
     }
 
-    this.minecraft.broadcastMessage({
-      username: username,
-      message: playerMessage,
-      guildRank: guildRank,
-    })
+    let guildRank = userParts[userParts.length - 1].replace(/[\[\]]/g, '')
+    if (guildRank == username) {
+      guildRank = 'Member'
+    }
+
+    if (this.isGuildMessage(message)) {
+      return this.minecraft.broadcastMessage({
+        username: username,
+        message: playerMessage,
+        guildRank: guildRank,
+      })
+    }
+
+    /* if (this.isOfficerMessage(message)) {
+      return this.minecraft.broadcastMessage({
+        username: username,
+        message: playerMessage,
+        guildRank: guildRank,
+      })
+    } */
   }
 
   isMessageFromBot(username) {
@@ -218,6 +233,18 @@ class StateHandler extends EventHandler {
 
   isGuildMessage(message) {
     return message.startsWith('Guild >') && message.includes(':')
+  }
+
+  isOfficerMessage(message) {
+    return message.startsWith('Officer >') && message.includes(':')
+  }
+
+  isPrivateMessage(message) {
+    return message.startsWith('From ') && message.includes(':')
+  }
+
+  isPartyMessage(message) {
+    return message.startsWith('Party >') && message.includes(':')
   }
 
   isLoginMessage(message) {

@@ -17,9 +17,24 @@ class MinecraftCommand {
     }
   }
 
-  sendToGuild(message) {
-    if (this.minecraft.bot.player !== undefined) {
-      this.minecraft.bot.chat(`/gc ${message}`)
+  reply(username, message, origin) {
+    if (this.minecraft.bot.player == undefined) {
+      return
+    }
+
+    switch (origin) {
+      case 'Guild':
+        this.minecraft.bot.chat(`/gc ${message}`)
+        break
+      case 'Officer':
+        this.minecraft.bot.chat(`/oc ${message}`)
+        break
+      case 'Party':
+        this.minecraft.bot.chat(`/pc ${message}`)
+        break
+      case 'From':
+        this.minecraft.bot.chat(`/w ${username} ${message}`)
+        break
     }
   }
 
