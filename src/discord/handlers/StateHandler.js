@@ -12,24 +12,36 @@ class StateHandler {
       this.discord.officerWebhook = await getWebhook(this.discord, this.discord.app.config.discord.officerChannel)
     }
 
+    let onlineEmbed = {
+      embed: {
+        author: { name: `Chat Bridge is Online` },
+        color: '47F049'
+      }
+    }
+
     this.discord.client.channels.fetch(this.discord.app.config.discord.guildChannel).then(channel => {
-      channel.send({
-        embed: {
-          author: { name: `Chat Bridge is Online` },
-          color: '47F049'
-        }
-      })
+      channel.send(onlineEmbed)
+    })
+
+    this.discord.client.channels.fetch(this.discord.app.config.discord.officerChannel).then(channel => {
+      channel.send(onlineEmbed)
     })
   }
 
   onClose() {
+    let offlineEmbed = {
+      embed: {
+        author: { name: `Chat Bridge is Offline` },
+        color: 'F04947'
+      }
+    }
+
     this.discord.client.channels.fetch(this.discord.app.config.discord.guildChannel).then(channel => {
-      channel.send({
-        embed: {
-          author: { name: `Chat Bridge is Offline` },
-          color: 'F04947'
-        }
-      }).then(() => { process.exit() })
+      channel.send(offlineEmbed).then(() => {
+        this.discord.client.channels.fetch(this.discord.app.config.discord.officerChannel).then(channel => {
+          channel.send(offlineEmbed).then(() => { process.exit() })
+        }).catch(() => { process.exit() })
+      }).catch(() => { process.exit() })
     }).catch(() => { process.exit() })
   }
 }
