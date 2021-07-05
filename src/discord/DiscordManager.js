@@ -36,33 +36,41 @@ class DiscordManager extends CommunicationBridge {
     process.on('SIGINT', () => this.stateHandler.onClose())
   }
 
+  sendMessageMessage(username, message, guildRank, channelID, colour) {
+    this.app.discord.client.channels.fetch(channelID).then(channel => {
+      channel.send({
+        embed: {
+          description: message,
+          color: colour,
+          timestamp: new Date(),
+          footer: {
+            text: guildRank,
+          },
+          author: {
+            name: username,
+            icon_url: 'https://www.mc-heads.net/avatar/' + username,
+          },
+        }
+      })
+    })
+  }
+
+  sendWebhookMessage(username, message, webhook) {
+    message = message.replace(/@/g, '') // Stop pinging @everyone or @here
+    webhook.send(
+      message, { username: username, avatarURL: 'https://www.mc-heads.net/avatar/' + username }
+    )
+  }
+
   onGuildBroadcast({ username, message, guildRank }) {
     this.app.log.broadcast(`${username} [${guildRank}]: ${message}`, `Discord`)
     switch (this.app.config.discord.messageMode.toLowerCase()) {
       case 'bot':
-        this.app.discord.client.channels.fetch(this.app.config.discord.channel).then(channel => {
-          channel.send({
-            embed: {
-              description: message,
-              color: '6495ED',
-              timestamp: new Date(),
-              footer: {
-                text: guildRank,
-              },
-              author: {
-                name: username,
-                icon_url: 'https://www.mc-heads.net/avatar/' + username,
-              },
-            },
-          })
-        })
+        this.sendMessageMessage(username, message, guildRank, this.app.config.discord.guildChannel, '6495ED')
         break
 
       case 'webhook':
-        message = message.replace(/@/g, '') // Stop pinging @everyone or @here
-        this.app.discord.webhook.send(
-          message, { username: username, avatarURL: 'https://www.mc-heads.net/avatar/' + username }
-        )
+        this.sendWebhookMessage(username, message, this.app.discord.guildWebhook)
         break
 
       default:
@@ -70,33 +78,15 @@ class DiscordManager extends CommunicationBridge {
     }
   }
 
-  onGuildBroadcast({ username, message, guildRank }) {
+  onOfficerBroadcast({ username, message, guildRank }) {
     this.app.log.broadcast(`${username} [${guildRank}]: ${message}`, `Discord`)
     switch (this.app.config.discord.messageMode.toLowerCase()) {
       case 'bot':
-        this.app.discord.client.channels.fetch(this.app.config.discord.channel).then(channel => {
-          channel.send({
-            embed: {
-              description: message,
-              color: '6495ED',
-              timestamp: new Date(),
-              footer: {
-                text: guildRank,
-              },
-              author: {
-                name: username,
-                icon_url: 'https://www.mc-heads.net/avatar/' + username,
-              },
-            },
-          })
-        })
+        this.sendMessageMessage(username, message, guildRank, this.app.config.discord.officerChannel, '00AAAA')
         break
 
       case 'webhook':
-        message = message.replace(/@/g, '') // Stop pinging @everyone or @here
-        this.app.discord.webhook.send(
-          message, { username: username, avatarURL: 'https://www.mc-heads.net/avatar/' + username }
-        )
+        this.sendWebhookMessage(username, message, this.app.discord.officerWebhook)
         break
 
       default:
@@ -107,7 +97,7 @@ class DiscordManager extends CommunicationBridge {
   onBroadcastCleanEmbed({ message, color }) {
     this.app.log.broadcast(message, 'Event')
 
-    this.app.discord.client.channels.fetch(this.app.config.discord.channel).then(channel => {
+    this.app.discord.client.channels.fetch(this.app.config.discord.guildChannel).then(channel => {
       channel.send({
         embed: {
           color: color,
@@ -120,7 +110,7 @@ class DiscordManager extends CommunicationBridge {
   onBroadcastHeadedEmbed({ message, title, icon, color }) {
     this.app.log.broadcast(message, 'Event')
 
-    this.app.discord.client.channels.fetch(this.app.config.discord.channel).then(channel => {
+    this.app.discord.client.channels.fetch(this.app.config.discord.guildChannel).then(channel => {
       channel.send({
         embed: {
           color: color,
@@ -139,7 +129,7 @@ class DiscordManager extends CommunicationBridge {
 
     switch (this.app.config.discord.messageMode.toLowerCase()) {
       case 'bot':
-        this.app.discord.client.channels.fetch(this.app.config.discord.channel).then(channel => {
+        this.app.discord.client.channels.fetch(this.app.config.discord.guildChannel).then(channel => {
           channel.send({
             embed: {
               color: color,
@@ -154,7 +144,7 @@ class DiscordManager extends CommunicationBridge {
         break
 
       case 'webhook':
-        this.app.discord.webhook.send({
+        this.app.discord.guildWebhook.send({
           username: username, avatarURL: 'https://www.mc-heads.net/avatar/' + username, embeds: [{
             color: color,
             description: `${username} ${message}`,
