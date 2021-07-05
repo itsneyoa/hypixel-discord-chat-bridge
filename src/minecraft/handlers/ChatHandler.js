@@ -193,7 +193,7 @@ class StateHandler extends EventHandler {
       return
     }
 
-    if (!(this.isGuildMessage(message)) || this.isOfficerMessage(message)) {
+    if (!(this.isGuildMessage(message) || this.isOfficerMessage(message))) {
       return
     }
 
