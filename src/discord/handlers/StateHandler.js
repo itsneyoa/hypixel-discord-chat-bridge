@@ -12,7 +12,7 @@ class StateHandler {
       this.discord.officerWebhook = await getWebhook(this.discord, this.discord.app.config.discord.officerChannel)
     }
 
-    this.discord.client.channels.fetch(this.discord.app.config.discord.channel).then(channel => {
+    this.discord.client.channels.fetch(this.discord.app.config.discord.guildChannel).then(channel => {
       channel.send({
         embed: {
           author: { name: `Chat Bridge is Online` },
@@ -23,7 +23,7 @@ class StateHandler {
   }
 
   onClose() {
-    this.discord.client.channels.fetch(this.discord.app.config.discord.channel).then(channel => {
+    this.discord.client.channels.fetch(this.discord.app.config.discord.guildChannel).then(channel => {
       channel.send({
         embed: {
           author: { name: `Chat Bridge is Offline` },
