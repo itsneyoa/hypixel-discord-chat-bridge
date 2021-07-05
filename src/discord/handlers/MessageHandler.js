@@ -18,11 +18,20 @@ class MessageHandler {
       return
     }
 
-    this.discord.broadcastMessage({
-      username: message.member.displayName,
-      message: this.stripDiscordContent(message.content),
-      replyingTo: await this.fetchReply(message),
-    })
+    switch (message.channel.id) {
+      case this.discord.app.config.discord.guildChannel:
+        return this.discord.broadcastGuildMessage({
+          username: message.member.displayName,
+          message: this.stripDiscordContent(message.content),
+          replyingTo: await this.fetchReply(message),
+        })
+      case this.discord.app.config.discord.officerChannel:
+        return this.discord.broadcastOfficerMessage({
+          username: message.member.displayName,
+          message: this.stripDiscordContent(message.content),
+          replyingTo: await this.fetchReply(message),
+        })
+    }
   }
 
   async fetchReply(message) {
@@ -52,7 +61,7 @@ class MessageHandler {
   }
 
   shouldBroadcastMessage(message) {
-    return !message.author.bot && message.channel.id == this.discord.app.config.discord.channel && message.content && message.content.length > 0
+    return !message.author.bot && (message.channel.id == this.discord.app.config.discord.guildChannel || message.channel.id == this.discord.app.config.discord.officerChannel) && message.content && message.content.length > 0
   }
 }
 

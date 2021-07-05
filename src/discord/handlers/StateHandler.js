@@ -8,10 +8,11 @@ class StateHandler {
     this.discord.client.user.setActivity('Guild Chat', { type: 'WATCHING' })
 
     if (this.discord.app.config.discord.messageMode == 'webhook') {
-      this.discord.webhook = await getWebhook(this.discord)
+      this.discord.guildWebhook = await getWebhook(this.discord, this.discord.app.config.discord.guildChannel)
+      this.discord.officerWebhook = await getWebhook(this.discord, this.discord.app.config.discord.officerChannel)
     }
 
-    this.discord.client.channels.fetch(this.discord.app.config.discord.channel).then(channel => {
+    this.discord.client.channels.fetch(this.discord.app.config.discord.guildChannel).then(channel => {
       channel.send({
         embed: {
           author: { name: `Chat Bridge is Online` },
@@ -22,7 +23,7 @@ class StateHandler {
   }
 
   onClose() {
-    this.discord.client.channels.fetch(this.discord.app.config.discord.channel).then(channel => {
+    this.discord.client.channels.fetch(this.discord.app.config.discord.guildChannel).then(channel => {
       channel.send({
         embed: {
           author: { name: `Chat Bridge is Offline` },
@@ -33,8 +34,8 @@ class StateHandler {
   }
 }
 
-async function getWebhook(discord) {
-  let channel = discord.client.channels.cache.get(discord.app.config.discord.channel)
+async function getWebhook(discord, channelID) {
+  let channel = discord.client.channels.cache.get(channelID)
   let webhooks = await channel.fetchWebhooks()
   if (webhooks.first()) {
     return webhooks.first()
