@@ -16,7 +16,7 @@ class CommandHandler {
   }
 
   handle(message) {
-    if (!message.content.startsWith(this.prefix)) {
+    if (!message.content.startsWith(this.prefix) || (message.channel != this.discord.app.config.discord.officerChannel)) {
       return false
     }
 
