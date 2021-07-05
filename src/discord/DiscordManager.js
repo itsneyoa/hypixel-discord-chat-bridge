@@ -62,6 +62,31 @@ class DiscordManager extends CommunicationBridge {
     )
   }
 
+  sendEvent(message, destination) {
+    switch (destination.toLowerCase()) {
+      case 'guild':
+        this.app.discord.client.channels.fetch(this.app.config.discord.guildChannel).then(channel => {
+          channel.send(message)
+        })
+        break;
+
+      case 'officer':
+        this.app.discord.client.channels.fetch(this.app.config.discord.officerChannel).then(channel => {
+          channel.send(message)
+        })
+        break;
+
+      case 'both':
+        this.app.discord.client.channels.fetch(this.app.config.discord.guildChannel).then(channel => {
+          channel.send(message)
+        })
+        this.app.discord.client.channels.fetch(this.app.config.discord.officerChannel).then(channel => {
+          channel.send(message)
+        })
+        break;
+    }
+  }
+
   onGuildBroadcast({ username, message, guildRank }) {
     this.app.log.broadcast(`${username} [${guildRank}]: ${message}`, `Discord`)
     switch (this.app.config.discord.messageMode.toLowerCase()) {
@@ -94,34 +119,30 @@ class DiscordManager extends CommunicationBridge {
     }
   }
 
-  onBroadcastCleanEmbed({ message, color }) {
+  onBroadcastCleanEmbed({ message, color, destination }) {
     this.app.log.broadcast(message, 'Event')
 
-    this.app.discord.client.channels.fetch(this.app.config.discord.guildChannel).then(channel => {
-      channel.send({
-        embed: {
-          color: color,
-          description: message,
-        }
-      })
-    })
+    this.sendEvent({
+      embed: {
+        color: color,
+        description: message,
+      }
+    }, destination)
   }
 
-  onBroadcastHeadedEmbed({ message, title, icon, color }) {
+  onBroadcastHeadedEmbed({ message, title, icon, color, destination }) {
     this.app.log.broadcast(message, 'Event')
 
-    this.app.discord.client.channels.fetch(this.app.config.discord.guildChannel).then(channel => {
-      channel.send({
-        embed: {
-          color: color,
-          author: {
-            name: title,
-            icon_url: icon,
-          },
-          description: message,
-        }
-      })
-    })
+    this.sendEvent({
+      embed: {
+        color: color,
+        author: {
+          name: title,
+          icon_url: icon,
+        },
+        description: message,
+      }
+    }, destination)
   }
 
   onPlayerToggle({ username, message, color }) {
@@ -129,18 +150,16 @@ class DiscordManager extends CommunicationBridge {
 
     switch (this.app.config.discord.messageMode.toLowerCase()) {
       case 'bot':
-        this.app.discord.client.channels.fetch(this.app.config.discord.guildChannel).then(channel => {
-          channel.send({
-            embed: {
-              color: color,
-              timestamp: new Date(),
-              author: {
-                name: `${username} ${message}`,
-                icon_url: 'https://www.mc-heads.net/avatar/' + username,
-              },
-            }
-          })
-        })
+        this.sendEvent({
+          embed: {
+            color: color,
+            timestamp: new Date(),
+            author: {
+              name: `${username} ${message}`,
+              icon_url: 'https://www.mc-heads.net/avatar/' + username,
+            },
+          }
+        }, 'Guild')
         break
 
       case 'webhook':
