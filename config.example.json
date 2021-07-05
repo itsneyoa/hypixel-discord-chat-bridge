@@ -12,7 +12,8 @@
   },
   "discord": {
     "token": "discordBotToken",
-    "channel": "channelId",
+    "guildChannel": "channelId",
+    "officerChannel": "channelId",
     "commandRole": "roleId",
     "ownerId": "ownerId",
     "prefix": "!",

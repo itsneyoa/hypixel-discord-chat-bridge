@@ -207,20 +207,20 @@ class StateHandler extends EventHandler {
     }
 
     if (this.isGuildMessage(message)) {
-      return this.minecraft.broadcastMessage({
+      return this.minecraft.broadcastGuildMessage({
         username: username,
         message: playerMessage,
         guildRank: guildRank,
       })
     }
 
-    /* if (this.isOfficerMessage(message)) {
-      return this.minecraft.broadcastMessage({
+    if (this.isOfficerMessage(message)) {
+      return this.minecraft.broadcastOfficerMessage({
         username: username,
         message: playerMessage,
         guildRank: guildRank,
       })
-    } */
+    }
   }
 
   isMessageFromBot(username) {

@@ -35,11 +35,19 @@ class MinecraftManager extends CommunicationBridge {
     })
   }
 
-  onBroadcast({ username, message, replyingTo }) {
+  onGuildBroadcast({ username, message, replyingTo }) {
     this.app.log.broadcast(`${username}: ${message}`, 'Minecraft')
 
     if (this.bot.player !== undefined) {
       this.bot.chat(`/gc ${this.obfuscate(`${replyingTo ? `${username} replying to ${replyingTo}:` : `${username}:`} ${message}`)}`)
+    }
+  }
+
+  onOfficerBroadcast({ username, message, replyingTo }) {
+    this.app.log.broadcast(`${username}: ${message}`, 'Minecraft')
+
+    if (this.bot.player !== undefined) {
+      this.bot.chat(`/oc ${this.obfuscate(`${replyingTo ? `${username} replying to ${replyingTo}:` : `${username}:`} ${message}`)}`)
     }
   }
 
