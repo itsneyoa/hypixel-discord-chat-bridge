@@ -1,11 +1,11 @@
 const DiscordCommand = require('../../contracts/DiscordCommand')
 
-class OverrideCommand extends DiscordCommand {
+class ExecuteCommand extends DiscordCommand {
   constructor(discord) {
     super(discord)
 
-    this.name = 'override'
-    this.aliases = ['o']
+    this.name = 'execute'
+    this.aliases = ['exec', 'e']
     this.description = 'Executes commands as the minecraft bot'
   }
 
@@ -22,4 +22,4 @@ class OverrideCommand extends DiscordCommand {
   }
 }
 
-module.exports = OverrideCommand
+module.exports = ExecuteCommand
